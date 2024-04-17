@@ -22,18 +22,14 @@ public class Employee {
 	private int otherMonthlyIncome;
 	private int annualDeductible;
 	
-	private String spouseName;
-	private String spouseIdNumber;
-
-	private List<String> childNames;
-	private List<String> childIdNumbers;
+	private FamilyMember spouse;
+        private List<FamilyMember> children;
 	
 	public Employee(PersonalInfo personalInfo, EmploymentInfo employmentInfo) {
             this.personalInfo = personalInfo;
             this.employmentInfo = employmentInfo;
             
-            childNames = new LinkedList<String>();
-            childIdNumbers = new LinkedList<String>();
+            children = new LinkedList<>();
         }
 	
 	/**
@@ -62,14 +58,12 @@ public class Employee {
 	}
 	
 	public void setSpouse(String spouseName, String spouseIdNumber) {
-		this.spouseName = spouseName;
-		this.spouseIdNumber = spouseIdNumber;
-	}
+                this.spouse = new FamilyMember(spouseName, spouseIdNumber);
+        }
 	
 	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
-	}
+                children.add(new FamilyMember(childName, childIdNumber));
+        }
 	
 	public int getAnnualIncomeTax() {
 		
@@ -83,6 +77,6 @@ public class Employee {
 			monthWorkingInYear = 12;
 		}
 		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse == null, children.size());
 	}
 }
