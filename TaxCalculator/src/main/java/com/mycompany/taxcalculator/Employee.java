@@ -5,8 +5,10 @@
 package com.mycompany.taxcalculator;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,22 +42,15 @@ public class Employee {
 	 */
 	
 	public void setMonthlySalary(int grade) {	
-		if (grade == 1) {
-			monthlySalary = 3000000;
-			if (employmentInfo.isIsForeigner()) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 2) {
-			monthlySalary = 5000000;
-			if (employmentInfo.isIsForeigner()) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 3) {
-			monthlySalary = 7000000;
-			if (employmentInfo.isIsForeigner()) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}
+		Map<Integer, Integer> gradeToSalary = new HashMap<>();
+                gradeToSalary.put(1, 3000000);
+                gradeToSalary.put(2, 5000000);
+                gradeToSalary.put(3, 7000000);
+
+                monthlySalary = gradeToSalary.getOrDefault(grade, 0);
+                if (employmentInfo.isIsForeigner()) {
+                    monthlySalary *= 1.5;
+                }
 	}
 	
 	public void setAnnualDeductible(int deductible) {	
