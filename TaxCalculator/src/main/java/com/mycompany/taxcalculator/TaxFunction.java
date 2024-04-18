@@ -31,28 +31,35 @@ class TaxFunction {
 	
 	
 	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
-		
-		int tax = 0;
-		
-		if (numberOfMonthWorking > 12) {
-			System.err.println("More than 12 month working per year");
-		}
-		
-		if (numberOfChildren > 3) {
-			numberOfChildren = 3;
-		}
-		
-		if (isMarried) {
-			tax = (int) Math.round(TAX_RATE * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (NON_TAXABLE_INCOME_MARRIED + (numberOfChildren * NON_TAXABLE_CHILD_ALLOWANCE))));
-		}else {
-			tax = (int) Math.round(TAX_RATE * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - NON_TAXABLE_INCOME_SINGLE));
-		}
-		
-		if (tax < 0) {
-			return 0;
-		}else {
-			return tax;
-		}
-			 
-	}
+            validateInput(numberOfMonthWorking, numberOfChildren);
+            int taxableIncome = calculateTaxableIncome(monthlySalary, otherMonthlyIncome, numberOfMonthWorking, deductible, isMarried, numberOfChildren);
+            int nonTaxableIncome = isMarried ? NON_TAXABLE_INCOME_MARRIED : NON_TAXABLE_INCOME_SINGLE;
+            int tax = (int) Math.round(TAX_RATE * (taxableIncome - nonTaxableIncome));
+            return Math.max(tax, 0);
+        }
+        
+        // Metode untuk menghitung penghasilan yang dapat dikenakan pajak
+        private static int calculateTaxableIncome(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int annualDeductible, boolean isMarried, int numberOfChildren) {
+            int totalMonthlyIncome = (monthlySalary + otherMonthlyIncome) * numberOfMonthWorking;
+            int totalDeductible = annualDeductible;
+
+            if (isMarried) {
+                // Memastikan bahwa jumlah anak yang diperhitungkan tidak lebih dari 3
+                int childrenCount = Math.min(numberOfChildren, 3);
+                totalDeductible += childrenCount * NON_TAXABLE_CHILD_ALLOWANCE;
+            }
+
+            return totalMonthlyIncome - totalDeductible;
+        }
+        
+        // Metode untuk validasi input
+        private static void validateInput(int numberOfMonthWorking, int numberOfChildren) {
+            if (numberOfMonthWorking > 12 || numberOfMonthWorking < 0) {
+                throw new IllegalArgumentException("Jumlah bekerja harus di antara 0 - 12");
+            }
+
+            if (numberOfChildren < 0) {
+                throw new IllegalArgumentException("Jumlah anak tidak bisa negatif");
+            }
+        }
 }

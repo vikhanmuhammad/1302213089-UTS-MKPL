@@ -72,14 +72,14 @@ public class Employee {
 		//Menghitung pajak pekerja bedasarkan lama waktu kerja
                 //Pekerja dari tahun sebelumnya, lama kerja otomatis menjadi setahun
                 int monthWorkingInYear;
-		LocalDate date = LocalDate.now();
-		
-		if (date.getYear() == employmentInfo.getYearJoined()) {
-			monthWorkingInYear = date.getMonthValue() - employmentInfo.getMonthJoined();
-		}else {
-			monthWorkingInYear = 12;
-		}
-		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse == null, children.size());
+                LocalDate date = LocalDate.now();
+
+                if (date.getYear() == employmentInfo.getYearJoined()) {
+                    monthWorkingInYear = date.getMonthValue() - employmentInfo.getMonthJoined();
+                } else {
+                    monthWorkingInYear = 12;
+                }
+
+                return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse == null, children.size());
 	}
 }
