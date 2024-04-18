@@ -32,11 +32,13 @@ public class Employee {
             children = new LinkedList<>();
         }
 	
-	/**
-	 * Fungsi untuk menentukan gaji bulanan pegawai berdasarkan grade kepegawaiannya (grade 1: 3.000.000 per bulan, grade 2: 5.000.000 per bulan, grade 3: 7.000.000 per bulan)
-	 * Jika pegawai adalah warga negara asing gaji bulanan diperbesar sebanyak 50%
-	 */
-	
+	//Mengihtung gaji berdasarkan grade pegawai
+        /*
+        -Grade 1, 3.000.000
+        -Grade 2, 5.000.000
+        -Grade 3, 7.000.000
+        */
+        //Khusus WNA, gaji lebih besar 50%
 	public void setMonthlySalary(int grade) {	
 		Map<Integer, Integer> gradeToSalary = new HashMap<>();
                 gradeToSalary.put(1, 3000000);
@@ -67,7 +69,8 @@ public class Employee {
 	
 	public int getAnnualIncomeTax() {
 		
-		//Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
+		//Menghitung pajak pekerja bedasarkan lama waktu kerja
+                //Pekerja dari tahun sebelumnya, lama kerja otomatis menjadi setahun
                 int monthWorkingInYear;
 		LocalDate date = LocalDate.now();
 		
