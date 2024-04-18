@@ -9,6 +9,11 @@ package com.mycompany.taxcalculator;
  * @author hp
  */
 class TaxFunction {
+    
+        private static final double TAX_RATE = 0.05;
+        private static final int NON_TAXABLE_INCOME_SINGLE = 54000000;
+        private static final int NON_TAXABLE_INCOME_MARRIED = 54000000 + 4500000;
+        private static final int NON_TAXABLE_CHILD_ALLOWANCE = 1500000;
 
 	
 	/*
@@ -38,9 +43,9 @@ class TaxFunction {
 		}
 		
 		if (isMarried) {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
+			tax = (int) Math.round(TAX_RATE * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (NON_TAXABLE_INCOME_MARRIED + (numberOfChildren * NON_TAXABLE_CHILD_ALLOWANCE))));
 		}else {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - 54000000));
+			tax = (int) Math.round(TAX_RATE * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - NON_TAXABLE_INCOME_SINGLE));
 		}
 		
 		if (tax < 0) {
